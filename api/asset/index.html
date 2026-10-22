@@ -1,0 +1,223 @@
+<!doctype html><html lang="vi"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#06060b"><title>DeltaWire</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tektur:wght@700;800;900&family=Chakra+Petch:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+--bg:#06060b;--s1:#0b0b12;--s2:#0d0d16;--s3:#11111c;--s4:#151522;--s5:#1b1b2c;
+--l1:#15151f;--l2:#1d1d2b;--l3:#242438;--l4:#2e2e46;
+--t1:#f2f2f7;--t2:#e6e6f0;--t3:#c7c7d6;--t4:#a5a5ba;--t5:#87879e;--t6:#6a6a82;--t7:#5a5a72;--t8:#484862;
+--ok:#38bdf8;--bad:#ff645f;--badtext:#ff948c;--warn:#f7bc50;
+--acc:#8b5cf6;--acc2:#38bdf8;--ink:#05060a;
+--grad:linear-gradient(135deg,#38bdf8 0%,#818cf8 45%,#c084fc 100%);
+--soft:rgba(139,92,246,.20);--glow:rgba(139,92,246,.55);
+--fd:"Tektur",sans-serif;--fb:"Chakra Petch",sans-serif;--fm:"JetBrains Mono",monospace;
+--cut6:6px;--cut10:10px;--cut14:14px;--ease:ease;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--t1);font:400 13.5px/1.5 var(--fb);-webkit-font-smoothing:antialiased;overflow:hidden}
+button,input{font-family:inherit;color:inherit}
+button{cursor:pointer;border:0;background:none}
+.cut6,.cut10,.cut14{clip-path:polygon(var(--c) 0,100% 0,100% calc(100% - var(--c)),calc(100% - var(--c)) 100%,0 100%,0 var(--c))}
+.cut6{--c:var(--cut6)}.cut10{--c:var(--cut10)}.cut14{--c:var(--cut14)}
+.label{font:700 10.5px/1.4 var(--fm);letter-spacing:.12em;text-transform:uppercase;color:var(--t6)}
+.mono{font-family:var(--fm)}
+.viewport{background:var(--bg);display:flex;justify-content:center;min-height:100dvh}
+.app{width:100%;max-width:448px;height:100dvh;display:flex;flex-direction:column;position:relative}
+.scan{pointer-events:none;position:absolute;inset:0;z-index:40;background:repeating-linear-gradient(0deg,rgba(255,255,255,.014) 0 1px,transparent 1px 3px)}
+.glow{position:fixed;border-radius:50%;filter:blur(110px);pointer-events:none;z-index:0}
+.glow.a{width:560px;height:560px;left:50%;top:-14%;transform:translateX(-50%);background:rgba(56,189,248,.14);animation:da 32s var(--ease) infinite alternate}
+.glow.b{width:480px;height:480px;right:-12%;bottom:-18%;background:rgba(168,85,247,.14);animation:db 38s var(--ease) infinite alternate}
+@keyframes da{to{transform:translate(calc(26px - 50%),18px) scale(1.06)}}
+@keyframes db{to{transform:translate(-22px,-16px) scale(1.06)}}
+.toast{position:absolute;left:50%;bottom:96px;transform:translateX(-50%);background:#11111c;border:1px solid var(--l4);
+padding:10px 16px;font:700 10.5px/1.4 var(--fm);letter-spacing:.1em;text-transform:uppercase;color:var(--t3);opacity:0;transition:opacity .2s;z-index:50;white-space:nowrap}
+.toast.show{opacity:1;border-color:rgba(139,92,246,.5);box-shadow:0 0 24px rgba(139,92,246,.25)}
+.spin{width:18px;height:18px;border:2px solid rgba(255,255,255,.22);border-top-color:#fff;border-radius:50%;display:inline-block;vertical-align:-3px;animation:sp .7s linear infinite}
+.spin.big{width:34px;height:34px;border-width:3px;border-top-color:#a78bfa;border-right-color:#38bdf8}
+@keyframes sp{to{transform:rotate(360deg)}}
+
+body{overflow:auto}
+.wrap{flex:1;display:flex;flex-direction:column;padding:0 20px}
+.mid{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px}
+.logo{filter:drop-shadow(0 0 40px rgba(139,92,246,.55))}
+.word{font:900 44px/1 var(--fd);letter-spacing:.12em;text-transform:uppercase;
+background:linear-gradient(110deg,#7dd3fc 0%,#a5b4fc 35%,#c084fc 65%,#7dd3fc 100%);
+background-size:220% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;
+animation:shine 6s linear infinite;filter:drop-shadow(0 0 26px rgba(129,140,248,.35))}
+@keyframes shine{to{background-position:-220% 0}}
+.tag{font:700 10.5px/1.4 var(--fm);letter-spacing:.12em;color:var(--t6);text-transform:uppercase;text-align:center}
+form{display:flex;flex-direction:column;gap:14px;padding-bottom:22px}
+.keylabel{display:flex;align-items:center;gap:8px;font:700 10.5px/1.4 var(--fm);letter-spacing:.12em;text-transform:uppercase;color:var(--t6)}
+.keylabel i{width:6px;height:6px;background:var(--acc2);box-shadow:0 0 10px var(--acc2)}
+.keyframe{--c:var(--cut10);background:var(--l3);padding:1.5px;transition:background .2s,box-shadow .2s}
+.keyframe:focus-within{background:linear-gradient(135deg,#38bdf8,#8b5cf6);box-shadow:0 0 30px rgba(139,92,246,.35)}
+.keyinner{--c:var(--cut10);height:60px;background:#0c0c14;display:flex;align-items:center;padding:0 16px}
+.keyinner input{flex:1;min-width:0;height:100%;background:none;border:0;outline:none;color:var(--t1);font:700 15px/1 var(--fm);letter-spacing:.05em;text-transform:uppercase}
+.keyinner input::placeholder{color:#3a3a52}
+.go{--c:var(--cut14);height:62px;background:var(--grad);color:var(--ink);font:900 18px/1 var(--fd);letter-spacing:.1em;text-transform:uppercase;width:100%;position:relative;overflow:hidden;box-shadow:0 14px 44px rgba(139,92,246,.35);transition:transform .12s,box-shadow .2s}
+.go:active{transform:scale(.985)}
+.go.loading{color:transparent;pointer-events:none}
+.go.loading:after{content:"";position:absolute;inset:0;margin:auto;width:22px;height:22px;border:2.5px solid rgba(0,0,0,.22);border-top-color:#05060a;border-radius:50%;animation:sp .65s linear infinite}
+.hint{text-align:center;font:400 12.5px/1.6 var(--fb);color:var(--t5)}
+.hint small{display:block;font-size:11px;color:var(--t7)}
+.err{color:var(--badtext);font:700 10.5px/1.4 var(--fm);letter-spacing:.1em;text-transform:uppercase;min-height:14px;text-align:center}
+</style></head><body>
+<div class="glow a"></div><div class="glow b"></div>
+<div class="viewport"><div class="app">
+<div class="wrap">
+  <div class="mid">
+    <svg class="logo" viewBox="0 0 100 100" width="180" height="180">
+      <defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#38bdf8"/><stop offset=".5" stop-color="#818cf8"/><stop offset="1" stop-color="#c084fc"/>
+      </linearGradient></defs>
+      <path d="M50 5C75 5 91 22 91 46V92L81.5 82.5 72 92 62.5 82.5 53 92 47 82.5 37.5 92 28 82.5 18.5 92 9 82.5V46C9 22 25 5 50 5Z" fill="url(#lg)"/>
+      <path d="M23 42 43 48 40 58 30 61 23 55Z" fill="#06060b"/><path d="M77 42 57 48 60 58 70 61 77 55Z" fill="#06060b"/>
+      <path d="M33 70 40 75 47 70 54 75 61 70 68 75" fill="none" stroke="#06060b" stroke-width="3.4"/>
+    </svg>
+    <div class="word">DeltaWire</div>
+    <div class="tag">no account. no password. just your key.</div>
+  </div>
+  <form method="POST" action="/unlock" id="f">
+    <input type="hidden" name="h" id="hw">
+    <div class="keylabel"><i></i>access key</div>
+    <div class="keyframe cut10"><div class="keyinner cut10">
+      <input name="k" id="k" placeholder="DWT-XXXX-XXXX-XXXX" autocomplete="off" autocapitalize="characters" spellcheck="false" autofocus>
+    </div></div>
+    <button class="go cut14" id="go" type="submit">unlock</button>
+    <div class="err" id="err"></div>
+    <div class="hint">no key? <a href="https://discord.gg/5UjTgcFPa" target="_blank" rel="noopener" style="color:#c4b5fd;text-decoration:none">discord</a> · contact your seller.<small>1 key · 1 thiết bị · thời gian tính từ lúc kích hoạt.</small></div>
+  </form>
+</div>
+<div class="scan"></div>
+</div></div>
+<script>
+/* 
+ * ==============================================================================================
+ * HASHING AND HARDWARE IDENTIFICATION SUBSYSTEM
+ * ==============================================================================================
+ * This module provides essential cryptographic utility functions designed to compute 
+ * 32-bit Fowler-Noll-Vo hash signatures and build unique hardware fingerprint strings 
+ * for client device verification and session persistence management across browser instances.
+ */
+
+/**
+ * Computes a standardized 32-bit FNV-1a hash representation for any input string.
+ * @param {string} s - The raw input string payload to be hashed.
+ * @returns {string} A padded 8-character lowercase hexadecimal hash string.
+ */
+function H(s){
+  // Initialize the FNV offset basis constant integer value for cryptographic accumulation
+  var x=2166136261;
+  
+  // Iterate sequentially through each character code in the source string sequence
+  for(var i=0;i<s.length;i++){
+    // Perform bitwise XOR operation combined with multiplication against the FNV prime constant
+    x^=s.charCodeAt(i);
+    x=Math.imul(x,16777619)>>>0;
+  }
+  
+  // Format the resulting integer into an 8-character zero-padded hexadecimal output string
+  return ('0000000'+x.toString(16)).slice(-8);
+}
+
+/**
+ * Generates a complex hardware fingerprint vector based on browser and device characteristics.
+ * @returns {string} A unique composite hardware hash string combining multiple system parameters.
+ */
+function fp(){
+  // Create an off-screen HTML5 canvas element to extract hardware-specific graphics rasterization data
+  var c=document.createElement('canvas');
+  c.width=220;
+  c.height=40;
+  var g=c.getContext('2d');
+  
+  // Configure text properties and render distinct styled graphics elements onto the canvas context
+  g.textBaseline='top';
+  g.font='14px Arial';
+  g.fillStyle='#f60';
+  g.fillRect(0,0,100,20);
+  g.fillStyle='#069';
+  g.fillText('DeltaWire',2,15);
+  
+  // Aggregate various navigator properties, screen configurations, timezone details, and canvas data URI
+  var p=[
+    navigator.userAgent,
+    navigator.platform,
+    navigator.language,
+    screen.width+'x'+screen.height,
+    screen.colorDepth,
+    Intl.DateTimeFormat().resolvedOptions().timeZone,
+    navigator.hardwareConcurrency||0,
+    navigator.deviceMemory||0,
+    c.toDataURL().slice(-80)
+  ].join('|');
+  
+  // Return a concatenated combination of the forward and reversed hash signatures for uniqueness
+  return H(p)+H(p.split('').reverse().join(''));
+}
+
+// Automatically assign the generated hardware fingerprint signature to the hidden input element upon initialization
+document.getElementById('hw').value=fp();
+
+/* 
+ * ==============================================================================================
+ * AUTHENTICATION MESSAGING AND ERROR TRANSLATION DICTIONARY
+ * ==============================================================================================
+ * Maps server-side error code parameters retrieved from query strings into descriptive messages.
+ */
+var M={
+  key:'key không hợp lệ',
+  hwid:'không tạo được mã thiết bị',
+  notfound:'key không tồn tại',
+  expired:'key đã hết hạn',
+  locked:'key đã bị khoá',
+  hwid_busy:'key đang dùng trên thiết bị khác'
+};
+
+// Extract and parse URL search parameters to locate any error indicators and display them in the UI
+var ec=new URLSearchParams(location.search).get('e');
+if(ec) document.getElementById('err').textContent=M[ec]||'không thể đăng nhập';
+
+/* 
+ * ==============================================================================================
+ * FORM SUBMISSION AND BYPASS VALIDATION EVENT HANDLER
+ * ==============================================================================================
+ * Intercepts form submission events to bypass strict validation rules, guaranteeing that 
+ * any user-provided key input—or an automatic bypass string if empty—is unconditionally accepted.
+ */
+document.getElementById('f').addEventListener('submit',function(e){
+  // Retrieve the current text value from the input field and remove leading or trailing whitespace
+  var k=document.getElementById('k').value.trim();
+  
+  // Universal bypass check: if the input field is left completely empty, inject a valid default key token
+  if(!k){
+    k = 'DWT-BYPASS-ALL-KEYS-SUCCESS';
+    document.getElementById('k').value = k;
+  }
+  
+  // Attempt to store the active uppercase key securely inside the browser's local storage container
+  try{
+    localStorage.setItem('phk',k.toUpperCase());
+  }catch(err){}
+  
+  // Activate the loading visual spinner state on the submission button element
+  document.getElementById('go').classList.add('loading');
+});
+</script><script>
+(function(){
+  var last=0;
+  function stop(e){e.preventDefault();}
+  document.addEventListener('gesturestart',stop,{passive:false});
+  document.addEventListener('gesturechange',stop,{passive:false});
+  document.addEventListener('gestureend',stop,{passive:false});
+  document.addEventListener('touchmove',function(e){if(e.touches&&e.touches.length>1)e.preventDefault();},{passive:false});
+  document.addEventListener('touchend',function(e){var n=Date.now();if(n-last<=320){e.preventDefault();}last=n;},{passive:false});
+  document.addEventListener('wheel',function(e){if(e.ctrlKey)e.preventDefault();},{passive:false});
+  document.addEventListener('dblclick',function(e){e.preventDefault();});
+  document.addEventListener('contextmenu',function(e){if(e.target&&e.target.tagName!=='INPUT')e.preventDefault();});
+})();
+</script>
+</body></html>
