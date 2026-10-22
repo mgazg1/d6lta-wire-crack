@@ -1,0 +1,33 @@
+"""
+========================================================================================
+NOTE: Standard Operating Procedure (SOP) - Asset Update Workflow
+Category: IT Asset Management / Digital Asset Management (DAM)
+Last Updated: October 2026
+========================================================================================
+
+1. OBJECTIVE:
+   To ensure all physical, digital, or financial assets are accurately updated in the 
+   system with correct metadata, valuation, status, and ownership details.
+
+2. PREREQUISITES:
+   - Proper authorization/approval from the Asset Manager.
+   - Access credentials to the Asset Management System (AMS / CMDB).
+   - Backup of the existing asset configuration or database record.
+
+3. STEP-BY-STEP UPDATE PROCEDURE:
+   - Step 1: Identify the target asset using its unique ID, serial number, or SKU.
+   - Step 2: Verify current status (e.g., Active, In Maintenance, Deprecated, Retired).
+   - Step 3: Modify relevant attributes:
+     * Metadata & Description (Name, category, tags, location)
+     * Technical Specs (Firmware version, capacity, hardware specs if applicable)
+     * Financial Data (Current valuation, depreciation rate, cost center)
+     * Ownership & Assignment (Assigned user, department, custodian)
+   - Step 4: Attach supporting documents (invoice, maintenance log, compliance certificate).
+   - Step 5: Save changes and submit the record for audit review.
+
+4. IMPORTANT NOTES / BEST PRACTICES:
+   - Always log the reason for the update in the audit trail (e.g., "Hardware upgrade", 
+     "Reassignment to Department B", "Annual depreciation adjustment").
+   - Notify the assigned custodian via email once the asset record has been successfully updated.
+========================================================================================
+"""
